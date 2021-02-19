@@ -134,7 +134,7 @@ function getDayOfWeekString(now) {
         case 6:
             dayOfWeek = 'Saturday';
             break;
-        case 7:
+        case 0:
             dayOfWeek = 'Sunday';
             break;
     }
