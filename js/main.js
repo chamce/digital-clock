@@ -3,43 +3,73 @@ const time = document.querySelector('.time');
 const date = document.querySelector('.date');
 
 function getTime() {
-    // create date object
-    let d = new Date();
+    // get date information for right now
+    let now = new Date();
     // get current hour
-    let h = d.getHours();
+    let hour = now.getHours();
     // get current minute
-    let m = d.getMinutes();
+    let minute = now.getMinutes();
     // get current second
-    let s = d.getSeconds();
-    // set to am
-    let am = 'AM';
-    // change to pm if military hour is > 11
-    if (h > 11) {
-        am = 'PM';
+    let second = now.getSeconds();
+    // get am or pm
+    let am = amOrPm(hour);
+    // change hour from military time
+    hour = fromMilitaryTime(am, hour);
+    // display time
+    displayTime(hour, minute, second, am);
+    // get current day of month
+    let dayOfMonth = now.getDate();
+    // get current month
+    let month = getMonthString(now);
+    // get current year
+    let year = now.getFullYear();
+    // display date
+    date.textContent = month + ' ' + dayOfMonth + ',' + year;
+    // get current day of week
+    let dayOfWeek = getDayOfWeekString(now);
+    // display day of week
+    day.textContent = dayOfWeek;
+}
+
+function amOrPm(hour) {
+    // return pm if hour 12-23
+    if (hour > 11) {
+        return 'PM';
     }
-    // change from military hour
+    // return am if hour 0-11
+    return 'AM';
+}
+
+function fromMilitaryTime(am, hour) {
+    // subtract 12 from hour if pm
     if (am === 'PM') {
-        h -= 12;
+        hour -= 12;
     }
-    // add 0 to front of h, m, or s if < 10
-    if (h < 10 || m < 10 || s < 10) {
-        if (h < 10) {
-            h = '0' + h;
+    return hour;
+}
+
+function displayTime(hour, minute, second, am) {
+    // if hour, minute, or second are less than 10
+    if (hour < 10 || minute < 10 || second < 10) {
+        // add a 0 in front of them
+        if (hour < 10) {
+            hour = '0' + hour;
         }
-        if (m < 10) {
-            m = '0' + m;
+        if (minute < 10) {
+            minute = '0' + minute;
         }
-        if (s < 10) {
-            s = '0' + s;
+        if (second < 10) {
+            second = '0' + second;
         }
     }
     // display time
-    time.textContent = h+':'+m+':'+s+' '+am;
-    // get current day of month
-    let dayMonth = d.getDate();
-    // get current month in number
-    let month = d.getMonth() + 1;
-    // set month in english
+    time.textContent = hour + ':' + minute + ':' + second + ' ' + am;
+}
+
+function getMonthString(now) {
+    // get month number
+    let month = now.getMonth() + 1;
+    // switch month to string
     switch (month) {
         case 1:
             month = 'Jan';
@@ -78,41 +108,40 @@ function getTime() {
             month = 'Dec';
             break;
     }
-    // get current year
-    let year = d.getFullYear();
-    // display date
-    date.textContent = month+' '+dayMonth+','+year;
-    // get current day of week in number
-    let dayWeek = d.getDay();
-    // set day of week in english
-    switch (dayWeek) {
+    return month;
+}
+
+function getDayOfWeekString(now) {
+    // get day of week number
+    let dayOfWeek = now.getDay();
+    // switch day of week to string
+    switch (dayOfWeek) {
         case 1:
-            dayWeek = 'Monday';
+            dayOfWeek = 'Monday';
             break;
         case 2:
-            dayWeek = 'Tuesday';
+            dayOfWeek = 'Tuesday';
             break;
         case 3:
-            dayWeek = 'Wednesday';
+            dayOfWeek = 'Wednesday';
             break;
         case 4:
-            dayWeek = 'Thursday';
+            dayOfWeek = 'Thursday';
             break;
         case 5:
-            dayWeek = 'Friday';
+            dayOfWeek = 'Friday';
             break;
         case 6:
-            dayWeek = 'Saturday';
+            dayOfWeek = 'Saturday';
             break;
         case 7:
-            dayWeek = 'Sunday';
+            dayOfWeek = 'Sunday';
             break;
     }
-    // display day
-    day.textContent = dayWeek;
+    return dayOfWeek;
 }
 
 // get time when page loads
 getTime();
-// update time every second
+//update time every second
 setInterval(getTime, 1000);
