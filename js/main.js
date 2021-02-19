@@ -1,6 +1,7 @@
 const day = document.querySelector('.day');
 const time = document.querySelector('.time');
 const date = document.querySelector('.date');
+const btn = document.querySelector('button');
 
 function getTime() {
     // get date information for right now
@@ -12,9 +13,12 @@ function getTime() {
     // get current second
     let second = now.getSeconds();
     // get am or pm
-    let am = amOrPm(hour);
+    let am = '';
     // change hour from military time
-    hour = fromMilitaryTime(am, hour);
+    if (btn.className === 'standard') {
+        hour = fromMilitaryTime(am, hour);
+        am = amOrPm(hour);
+    }
     // display time
     displayTime(hour, minute, second, am);
     // get current day of month
@@ -139,6 +143,18 @@ function getDayOfWeekString(now) {
             break;
     }
     return dayOfWeek;
+}
+
+btn.onclick = function () {
+    if (btn.className === 'standard') {
+        btn.setAttribute('class', 'military');
+        btn.textContent = 'To 12-hour time';
+        getTime();
+    } else {
+        btn.setAttribute('class', 'standard');
+        btn.textContent = 'To 24-hour time';
+        getTime();
+    }
 }
 
 // get time when page loads
