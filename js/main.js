@@ -51,6 +51,10 @@ function fromMilitaryTime(am, hour) {
     if (am === 'PM') {
         hour -= 12;
     }
+    // if midnight or we subtracted 12 from 12 pm
+    if (hour === 0) {
+        hour = 12;
+    }
     return hour;
 }
 
