@@ -13,11 +13,13 @@ function getTime() {
     // get current second
     let second = now.getSeconds();
     // get am or pm
-    let am = '';
-    // change hour from military time
-    if (btn.className === 'stand') {
+    let am = amOrPm(hour);
+    // change hour from military time if button is standard
+    if (btn.className === 'standard') {
         hour = fromMilitaryTime(am, hour);
-        am = amOrPm(hour);
+    // leave in military time otherwise and remove am
+    } else {
+        am = '';
     }
     // display time
     displayTime(hour, minute, second, am);
@@ -146,12 +148,12 @@ function getDayOfWeekString(now) {
 }
 
 btn.onclick = function () {
-    if (btn.className === 'stand') {
+    if (btn.className === 'standard') {
         btn.setAttribute('class', 'military');
         btn.textContent = 'To 12-hour time';
         getTime();
     } else {
-        btn.setAttribute('class', 'stand');
+        btn.setAttribute('class', 'standard');
         btn.textContent = 'To 24-hour time';
         getTime();
     }
